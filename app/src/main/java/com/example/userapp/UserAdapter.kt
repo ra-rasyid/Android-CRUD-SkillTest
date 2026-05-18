@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
 class UserAdapter(
-    private val list: MutableList<User>, // Gunakan MutableList agar bisa diedit
+    private val list: MutableList<User>,
     private val onEdit: (User, Int) -> Unit,
     private val onDelete: (Int) -> Unit
 ) : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
@@ -17,6 +17,8 @@ class UserAdapter(
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val name: TextView = view.findViewById(R.id.tvName)
         val email: TextView = view.findViewById(R.id.tvEmail)
+        // TAMBAHAN: Inisialisasi ID tvAddress
+        val address: TextView = view.findViewById(R.id.tvAddress)
         val avatar: ImageView = view.findViewById(R.id.imgAvatar)
         val btnDelete: ImageView = view.findViewById(R.id.btnDelete)
     }
@@ -30,12 +32,14 @@ class UserAdapter(
         val user = list[position]
         holder.name.text = user.name
         holder.email.text = user.email
+        // TAMBAHAN: Menampilkan teks alamat
+        holder.address.text = user.address ?: "Alamat belum diisi"
 
         Glide.with(holder.itemView.context)
             .load("https://i.pravatar.cc/150?img=${user.id}")
             .into(holder.avatar)
 
-        // Klik Item untuk Update
+        // Klik Item untuk Update atau Pindah ke Card
         holder.itemView.setOnClickListener { onEdit(user, position) }
 
         // Klik Icon untuk Delete
